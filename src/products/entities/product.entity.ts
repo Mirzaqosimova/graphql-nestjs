@@ -32,7 +32,7 @@ export enum MeasurementType{
 }
 
 export enum Status{
-  ACTIVE, DELETE,BLOCK
+  ACTIVE = 'ACTIVE', DELETE = 'DELETE',BLOCK = 'BLOCK'
 }
 
 registerEnumType(Status, {

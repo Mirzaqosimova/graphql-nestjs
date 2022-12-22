@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { ProductsService } from './products.service';
-import { Product } from './entities/product.entity';
+import { Product, Status } from './entities/product.entity';
 import { CreateProductInput } from './dto/create-product.input';
 import { UpdateProductInput } from './dto/update-product.input';
 
@@ -14,8 +14,8 @@ export class ProductsResolver {
   }
 
   @Query(() => [Product], { name: 'products' })
-  findAll() {
-    return this.productsService.findAll();
+  findAll(@Args('status', { type: () =>   Status }) status: Status): Promise<Product[]> {
+    return this.productsService.findAll(status);
   }
 
   @Query(() => Product, { name: 'product' })
