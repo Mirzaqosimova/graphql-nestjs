@@ -9,12 +9,16 @@ export class ProductsResolver {
   constructor(private readonly productsService: ProductsService) {}
 
   @Mutation(() => Product)
-  createProduct(@Args('createProductInput') createProductInput: CreateProductInput): Promise<Product> {
+  createProduct(
+    @Args('createProductInput') createProductInput: CreateProductInput,
+  ): Promise<Product> {
     return this.productsService.create(createProductInput);
   }
 
   @Query(() => [Product], { name: 'products' })
-  findAll(@Args('status', { type: () =>   Status }) status: Status): Promise<Product[]> {
+  findAll(
+    @Args('status', { type: () => Status }) status: Status,
+  ): Promise<Product[]> {
     return this.productsService.findAll(status);
   }
 
@@ -24,8 +28,10 @@ export class ProductsResolver {
   }
 
   @Mutation(() => Product)
-  updateProduct(@Args('updateProductInput') updateProductInput: UpdateProductInput) {
-    return this.productsService.update(updateProductInput.id, updateProductInput);
+  updateProduct(
+    @Args('updateProductInput') updateProductInput: UpdateProductInput,
+  ): Promise<Product> {
+    return this.productsService.update(updateProductInput);
   }
 
   @Mutation(() => Product)

@@ -33,8 +33,15 @@ export class ProductsService {
       });
   }
 
-  update(id: number, updateProductInput: UpdateProductInput) {
-    return `This action updates a #${id} product`;
+  update(updateProductInput: UpdateProductInput): Promise<Product> {
+    const { id, ...data } = updateProductInput;
+    return this.knex('products')
+      .update({ ...data })
+      .where({ id })
+      .returning('*')
+      .then((dta: Product[]) => {
+        return dta[0];
+      });
   }
 
   remove(id: number) {
