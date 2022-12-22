@@ -44,7 +44,12 @@ export class ProductsService {
       });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  remove(id: number): Promise<boolean> {
+    return this.knex('products')
+    .del()
+    .where({id})
+    .then((data: number)=>{if(data>0){
+      return true
+    }return false});
   }
 }

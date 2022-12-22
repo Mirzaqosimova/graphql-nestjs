@@ -34,7 +34,7 @@ export class ProductsResolver {
     return this.productsService.update(updateProductInput);
   }
 
-  @Mutation(() => Product)
+  @Mutation(() => Boolean)
   removeProduct(@Args('id', { type: () => Int }) id: number) {
     return this.productsService.remove(id);
   }
