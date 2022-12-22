@@ -24,6 +24,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
     KnexModule.forRootAsync({
       useClass: DatabaseConfig,
     }),
+    
   ],
   controllers: [AppController],
 })

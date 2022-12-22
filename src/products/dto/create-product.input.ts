@@ -1,4 +1,5 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
+import { MeasurementType } from '../entities/product.entity';
 
 @InputType()
 export class CreateProductInput {
@@ -11,10 +12,7 @@ export class CreateProductInput {
   @Field(() => Int, { description: 'Example field (placeholder)' })
   amount: number;
   
-  @Field(() => String, { description: 'Example field (placeholder)' })
-  measurement_type: String;
+  @Field(() => MeasurementType, { description: 'Example field (placeholder)' })
+  measurement_type: MeasurementType;
 }
 
-enum MeasurementType{
-  KG, L,M,GR,T,KM
-}

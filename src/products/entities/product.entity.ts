@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field, Int, registerEnumType } from '@nestjs/graphql';
 
 @ObjectType()
 export class Product {
@@ -15,14 +15,30 @@ export class Product {
   @Field(() => Int, { description: 'Example field (placeholder)' })
   amount: number;
   
-  @Field(() => String, { description: 'Example field (placeholder)' })
-  measurement_type: String;
+  @Field(() => MeasurementType, { description: 'Example field (placeholder)' })
+  measurement_type: MeasurementType;
   
-  @Field(() => String, { description: 'Example field (placeholder)' })
-  status: String;
+  @Field(() => Status, { description: 'Example field (placeholder)' })
+  status: Status;
   
   @Field(() => String, { description: 'Example field (placeholder)' })
   created_at: String;
 
 
 }
+
+export enum MeasurementType{
+  KG, L,M,GR,T,KM
+}
+
+export enum Status{
+  ACTIVE, DELETE,BLOCK
+}
+
+registerEnumType(Status, {
+  name: 'Status',
+});
+
+registerEnumType(MeasurementType, {
+  name: 'MeasurementType',
+});
