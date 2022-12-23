@@ -3,6 +3,8 @@ import { ProductsService } from './products.service';
 import { Product, Status } from './entities/product.entity';
 import { CreateProductInput } from './dto/create-product.input';
 import { UpdateProductInput } from './dto/update-product.input';
+import { Products } from './dto/find-all-product.return-type';
+import { ProductArgs } from './dto/find-all.products.query';
 
 @Resolver(() => Product)
 export class ProductsResolver {
@@ -15,11 +17,11 @@ export class ProductsResolver {
     return this.productsService.create(createProductInput);
   }
 
-  @Query(() => [Product], { name: 'products' })
+  @Query(() => [Products], { name: 'products' })
   findAll(
-    @Args('status', { type: () => Status }) status: Status,
-  ): Promise<Product[]> {
-    return this.productsService.findAll(status);
+    @Args() args: ProductArgs
+  ): Promise<Products[]> {
+    return this.productsService.findAll(args);
   }
 
   @Query(() => Product, { name: 'product' })

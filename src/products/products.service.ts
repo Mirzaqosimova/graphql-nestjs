@@ -1,6 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Knex, InjectKnex } from 'nestjs-knex';
 import { CreateProductInput } from './dto/create-product.input';
+import { Products } from './dto/find-all-product.return-type';
+import { ProductArgs } from './dto/find-all.products.query';
 import { UpdateProductInput } from './dto/update-product.input';
 import { Product, Status } from './entities/product.entity';
 
@@ -16,8 +18,25 @@ export class ProductsService {
       });
   }
 
-  findAll(status: Status): Promise<Product[]> {
-    return this.knex('products').where({ status: Status[status] }).select('*');
+  async findAll(args: ProductArgs): Promise<Products[]> {
+    const baseQuery = this.knex('products')
+    .where({ 'products.status': args.status })
+    .leftJoin('orders',{'orders.product_id':'products.id'})
+    .leftJoin('users',{'orders.user_id':'users.id'})
+    .select(
+      this.knex.raw(
+`
+to_json(products.*) as product,
+jsonb_agg(users.*) as users`,
+      ),
+    )
+    .groupBy('products.id');
+    if(args.price){  
+       baseQuery.where({'products.price':args.price})}
+ const data: any[] = await baseQuery
+ const ds: Products[] = data
+ 
+ return ds
   }
 
   findOne(id: number): Promise<Product> {

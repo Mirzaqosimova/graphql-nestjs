@@ -7,6 +7,7 @@ import { DatabaseConfig } from './shared/database';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
@@ -15,6 +16,9 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
       debug: true,
       playground: true,
       autoSchemaFile: true,
+      buildSchemaOptions: {
+        dateScalarMode: 'timestamp',
+      }
     }),
     UsersModule,
     ProductsModule,
@@ -24,6 +28,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
     KnexModule.forRootAsync({
       useClass: DatabaseConfig,
     }),
+    OrdersModule,
     
   ],
   controllers: [AppController],

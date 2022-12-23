@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int, registerEnumType } from '@nestjs/graphql';
+import { ObjectType, Field, Int, registerEnumType, GraphQLTimestamp } from '@nestjs/graphql';
 
 @ObjectType()
 export class Product {
@@ -21,7 +21,7 @@ export class Product {
   @Field(() => Status, { description: 'Example field (placeholder)' })
   status: Status;
   
-  @Field(() => String, { description: 'Example field (placeholder)' })
+  @Field(() => GraphQLTimestamp, { description: 'Example field (placeholder)' })
   created_at: String;
 
 
