@@ -9,6 +9,8 @@ import { Product, Status } from './entities/product.entity';
 @Injectable()
 export class ProductsService {
   constructor(@InjectKnex() private readonly knex: Knex) {}
+
+  //validation not implemented
   create(createProductInput: CreateProductInput): Promise<Product> {
     return this.knex('products')
       .insert({ ...createProductInput })
