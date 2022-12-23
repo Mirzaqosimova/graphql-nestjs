@@ -8,8 +8,8 @@ export class Products{
     @Field(() => Product)
     product: Product
     
-    @Field(() => [User])
-    users: User[]
+    @Field(() => [User],{nullable:true})
+    users?: User[]
 
 
 }

@@ -20,23 +20,27 @@ export class ProductsService {
 
   async findAll(args: ProductArgs): Promise<Products[]> {
     const baseQuery = this.knex('products')
-    .where({ 'products.status': args.status })
-    .leftJoin('orders',{'orders.product_id':'products.id'})
-    .leftJoin('users',{'orders.user_id':'users.id'})
-    .select(
-      this.knex.raw(
-`
+      .where({ 'products.status': args.status })
+      .leftJoin('orders', { 'orders.product_id': 'products.id' })
+      .leftJoin('users', { 'orders.user_id': 'users.id' })
+      .select(
+        this.knex.raw(
+          `
 to_json(products.*) as product,
 jsonb_agg(users.*) as users`,
-      ),
-    )
-    .groupBy('products.id');
-    if(args.price){  
-       baseQuery.where({'products.price':args.price})}
- const data: any[] = await baseQuery
- const ds: Products[] = data
- 
- return ds
+        ),
+      )
+      .groupBy('products.id');
+    if (args.price) {
+      baseQuery.where({ 'products.price': args.price });
+    }
+
+    return baseQuery.then((data: any) => {
+      return data.map((item) => ({
+        ...item,
+        users: item.users[0] === null ? null : item.users,
+      }));
+    });
   }
 
   findOne(id: number): Promise<Product> {
@@ -65,10 +69,13 @@ jsonb_agg(users.*) as users`,
 
   remove(id: number): Promise<boolean> {
     return this.knex('products')
-    .del()
-    .where({id})
-    .then((data: number)=>{if(data>0){
-      return true
-    }return false});
+      .del()
+      .where({ id })
+      .then((data: number) => {
+        if (data > 0) {
+          return true;
+        }
+        return false;
+      });
   }
 }
