@@ -1,5 +1,5 @@
 import { ObjectType, Field, Int, registerEnumType, GraphQLTimestamp } from '@nestjs/graphql';
-import { Status } from 'src/products/entities/product.entity';
+import { Status } from '@/products/entities/product.entity';
 
 @ObjectType()
 export class User {

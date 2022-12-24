@@ -1,13 +1,12 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
 import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
 import { KnexModule } from 'nestjs-knex';
-import { DatabaseConfig } from './shared/database';
+import { DatabaseConfig } from '@/shared/database';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { OrdersModule } from './orders/orders.module';
+import { OrdersModule } from '@/orders/orders.module';
 
 @Module({
   imports: [
@@ -18,6 +17,10 @@ import { OrdersModule } from './orders/orders.module';
       autoSchemaFile: true,
       buildSchemaOptions: {
         dateScalarMode: 'timestamp',
+      },
+      subscriptions: {
+        'graphql-ws': true,
+        'subscriptions-transport-ws': true,
       }
     }),
     UsersModule,
@@ -31,6 +34,5 @@ import { OrdersModule } from './orders/orders.module';
     OrdersModule,
     
   ],
-  controllers: [AppController],
 })
 export class AppModule {}

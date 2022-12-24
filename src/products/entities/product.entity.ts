@@ -28,7 +28,7 @@ export class Product {
 }
 
 export enum MeasurementType{
-  KG, L,M,GR,T,KM
+  KG = 'KG', L= 'L',M='M',GR='GR',T='T',KM='KM'
 }
 
 export enum Status{

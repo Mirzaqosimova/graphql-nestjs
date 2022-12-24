@@ -27,9 +27,8 @@ export class ProductsService {
       .leftJoin('users', { 'orders.user_id': 'users.id' })
       .select(
         this.knex.raw(
-          `
-to_json(products.*) as product,
-jsonb_agg(users.*) as users`,
+          `to_json(products.*) as product,
+           jsonb_agg(users.*) as users`,
         ),
       )
       .groupBy('products.id');
